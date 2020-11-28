@@ -10,8 +10,12 @@ has_secure_password
 validates :password, presence: true, length: {minimum: 6}
 
 
+def self.search(search)
+    return User.all unless search
+    User.where(['name LIKE ?', "%#{search}%"])
+end
 
-#渡された文字列のハッシュ値を返す
+
 def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : 
                                                  BCrypt::Engine.cost
